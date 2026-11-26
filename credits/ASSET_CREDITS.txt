@@ -1,0 +1,36 @@
+# CODEBREAKERS asset credits
+
+These records describe assets retained in the current MissionBoard, FightingArena and ConditionsArena game. Retain the relevant attribution and bundled notices in distributions.
+
+## Floating Island Stage
+
+"Floating Island Stage" by [Umar on Sketchfab](https://sketchfab.com/3d-models/floating-island-stage-d2855c10e9944c89892bb49a5973435f), licensed under [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/).
+
+Retained model: `unity-client/Assets/Codebreakers/Art/source/Flooting_Stage.fbx`. Source FBX SHA-256: `a9a6afe77c689125bc71274376ddd426a69f762b309be24f3ffc06400bde931c`. Integration uses scaled scene placement, Unity material assignments, lighting and collision-only fighting surfaces. Source FBX geometry is unchanged. Original stage textures used by the materials remain under `Art/textures/`. Duplicate download and fallback copies were removed during cleanup.
+
+## Fighters and animations
+
+Ninja (`Ch24_nonPBR.fbx`), Vanguard (`Idle.fbx`) and Blade (`Characters/Blade/Blade.fbx`, originally `Maria WProp J J Ong.fbx`) and their animations were supplied by the owner as Mixamo downloads. The imported FBX files are retained unchanged. Original filenames and source hashes are recorded in `docs/provenance/`. Those records preserve provenance; they do not grant a new license or establish rights beyond the owner's source acquisition.
+
+Vanguard and Blade mission portraits are in-Unity renders of those same models and inherit their source rights. No game-reference artwork was copied into the portraits.
+
+## Interface and fonts
+
+- The leaf atlas `Art/UI/Foliage/WoodlandLeaves-v1.png` was generated for CODEBREAKERS with the built-in image-generation tool. It is original generated botanical artwork, not a photograph. The source image, generation prompt and import record remain in `docs/provenance/leaf-editor--art-source.md`.
+- DejaVu Sans Mono and its derived SDF font: keep `Assets/Codebreakers/Art/UI/Fonts/DejaVu-LICENSE.txt`. Editable source TTF is retained.
+- TextMeshPro Essentials came from the installed Unity UI package. Preserve its package notices and the imported Liberation Sans license (`Assets/TextMesh Pro/Fonts/LiberationSans - OFL.txt`). Bundled EmojiOne resources retain `Assets/TextMesh Pro/Sprites/EmojiOne Attribution.txt`.
+- Game code and custom UI arrangement were authored for CODEBREAKERS. The Farmer Was Replaced and CodeCombat informed presentation; their artwork and code were not imported.
+
+- Cormorant Garamond display font: Christian Thalmann / Catharsis Fonts, SIL Open Font License 1.1. Downloaded from the Google Fonts `ofl/cormorantgaramond` directory; TTF and OFL notice are retained in `Art/UI/Fonts/Display/`. `Resources/Interface/Display Serif.asset` is the Unity SDF derivative.
+- `Resources/Interface/{Ninja,Vanguard,Blade,Stage}.png` are Unity captures of the existing fighters and Floating Island Stage. They inherit the source rights above. `Editor/InterfaceArtCapture.cs` retains the capture procedure. User-supplied interface references guided layout; their raster artwork is not shipped.
+
+## Source records
+
+`docs/provenance/` retains compact source hashes, texture provenance, font/resource notices and the leaf generation record. Paths referring to the former `Mixamo/` download folder are historical provenance paths; the single working copies now live under Unity `Assets/`. Old screenshots, recordings and prototype sources are available through Git history rather than duplicate working-tree archives.
+
+## Python lesson execution (course v2, 2026-11-21)
+
+- Browser runtime: **Pyodide 0.27.7**, unmodified distribution files from `https://cdn.jsdelivr.net/pyodide/v0.27.7/full/`. Source: https://github.com/pyodide/pyodide/tree/0.27.7. MPL-2.0 license retained at `unity-client/Assets/StreamingAssets/Python/pyodide/LICENSE.txt`; corresponding source is available at that tagged repository. No Pyodide source modifications were made.
+- Bundled **CPython 3.12.7** and standard library: source https://github.com/python/cpython/tree/v3.12.7. Python license and historical notices retained in `Python-LICENSE.txt` alongside the runtime.
+- `pyodide.js`, `pyodide.asm.js`, `pyodide.asm.wasm`, `python_stdlib.zip`, and `pyodide-lock.json` are redistributed runtime dependencies, not character/art assets. No optional Pyodide packages are loaded. A SHA-256 manifest is stored alongside them.
+- CODEBREAKERS' AST instrumentation, game API bridge, course text and tests are original project code. The course supports a documented subset of Python syntax and a restricted game API. Desktop review uses an installed Python 3 interpreter; browser builds contain the interpreter.

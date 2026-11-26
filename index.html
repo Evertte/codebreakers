@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CODEBREAKERS</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; width: 100%; height: 100%; background: #17231c; color: #f2f0df; font: 15px system-ui, sans-serif; }
+    #game { position: relative; height: calc(100% - 30px); }
+    canvas { width: 100%; height: 100%; display: block; outline: none; }
+    #loading { position: absolute; inset: 0; display: grid; place-content: center; gap: 16px; text-align: center; background: #17231c; }
+    #loading[hidden] { display: none; }
+    progress { width: min(320px, 80vw); accent-color: #b1c293; }
+    #error { max-width: 560px; padding: 20px; white-space: pre-wrap; }
+    footer { height: 30px; display: flex; align-items: center; justify-content: space-between; padding: 0 12px; }
+    a, button { color: inherit; font: inherit; }
+    button { background: none; border: 0; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <main id="game">
+    <canvas id="unity-canvas" tabindex="0" aria-label="CODEBREAKERS programming fighting game"></canvas>
+    <div id="loading" role="status">
+      <strong>Loading CODEBREAKERS</strong>
+      <progress id="progress" max="1" value="0" aria-label="Loading game"></progress>
+      <div id="error" hidden role="alert"></div>
+    </div>
+  </main>
+  <footer><a href="credits.html" target="_blank" rel="noopener">Credits</a><button id="fullscreen" disabled>Fullscreen</button></footer>
+  <script>
+    const canvas = document.querySelector('#unity-canvas');
+    const loading = document.querySelector('#loading');
+    const progress = document.querySelector('#progress');
+    const error = document.querySelector('#error');
+    function showError(message) {
+      loading.hidden = false;
+      progress.hidden = true;
+      error.hidden = false;
+      error.textContent = 'The game could not load. Try refreshing in a desktop browser.\n' + message;
+    }
+    const config = {
+      dataUrl: 'Build/21571dc199ab9c427e08f7fd8693e057.data.unityweb',
+      frameworkUrl: 'Build/1dd4436a54579cadd800c7f222d2faa5.framework.js.unityweb',
+      codeUrl: 'Build/f1e7eb87cb4a439153fbd4b067853584.wasm.unityweb',
+      streamingAssetsUrl: 'StreamingAssets',
+      companyName: 'Codebreakers',
+      productName: 'CODEBREAKERS',
+      productVersion: '1.0',
+      devicePixelRatio: Math.min(window.devicePixelRatio || 1, 2),
+      showBanner: (message, type) => { if (type === 'error') showError(message); else console.warn(message); }
+    };
+    const loader = document.createElement('script');
+    loader.src = 'Build/d695f695d955242263fadf7e6f1d2204.loader.js';
+    loader.onerror = () => showError('Unable to download the game loader.');
+    loader.onload = () => createUnityInstance(canvas, config, value => { progress.value = value; })
+      .then(instance => {
+        loading.hidden = true;
+        canvas.focus();
+        const button = document.querySelector('#fullscreen');
+        button.disabled = false;
+        button.addEventListener('click', () => instance.SetFullscreen(1));
+      }).catch(showError);
+    document.body.appendChild(loader);
+  </script>
+</body>
+</html>
