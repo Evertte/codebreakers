@@ -40,9 +40,9 @@
       error.textContent = 'The game could not load. Try refreshing in a desktop browser.\n' + message;
     }
     const config = {
-      dataUrl: 'Build/edb9ac61c72bb58e1f7b2def0d390315.data.unityweb',
+      dataUrl: 'Build/a06a127a51fc27669619fcd847c6d91b.data.unityweb',
       frameworkUrl: 'Build/52602579e8be9c5a06593d7b8d7b8ebf.framework.js.unityweb',
-      codeUrl: 'Build/49e6982b67a8ca03a975a7906a5c21e4.wasm.unityweb',
+      codeUrl: 'Build/334d843fab0bb4f9da6bcc54de57104d.wasm.unityweb',
       streamingAssetsUrl: 'StreamingAssets',
       companyName: 'Codebreakers',
       productName: 'CODEBREAKERS',
@@ -51,7 +51,7 @@
       showBanner: (message, type) => { if (type === 'error') showError(message); else console.warn(message); }
     };
     const loader = document.createElement('script');
-    loader.src = 'Build/3f3ba4f67030366d87dc8ca7986b4035.loader.js';
+    loader.src = 'Build/ad6f9f0b3893f92654796a0b4c4cc74b.loader.js';
     loader.onerror = () => showError('Unable to download the game loader.');
     loader.onload = () => createUnityInstance(canvas, config, value => { progress.value = value; })
       .then(() => {
