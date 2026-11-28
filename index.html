@@ -7,23 +7,15 @@
   <style>
     * { box-sizing: border-box; }
     html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background: #17231c; color: #f2f0df; font: 15px system-ui, sans-serif; }
-    #game { position: relative; width: 100%; height: calc(100vh - 54px); height: calc(100dvh - 54px - env(safe-area-inset-bottom, 0px)); }
+    #game { position: relative; width: 100%; height: calc(100vh - 30px); height: calc(100dvh - 30px); }
     canvas { width: 100%; height: 100%; display: block; outline: none; touch-action: none; }
-    canvas:fullscreen, canvas:-webkit-full-screen { width: 100vw !important; height: 100vh !important; height: 100dvh !important; }
     #loading { position: absolute; inset: 0; display: grid; place-content: center; gap: 16px; text-align: center; background: #17231c; }
     #loading[hidden] { display: none; }
     progress { width: min(320px, 80vw); accent-color: #b1c293; }
     #error { max-width: 560px; padding: 20px; white-space: pre-wrap; }
-    footer { height: calc(54px + env(safe-area-inset-bottom, 0px)); display: flex; align-items: center; justify-content: space-between; padding: 0 16px env(safe-area-inset-bottom, 0px); gap: 12px; }
-    a, button { color: inherit; font: inherit; }
+    footer { height: 30px; display: flex; align-items: center; justify-content: space-between; padding: 0 12px; }
+    a { color: inherit; font: inherit; }
     footer a { color: #d8dbc9; }
-    button { min-height: 42px; padding: 0 20px; border: 1px solid #48bfae; border-radius: 12px; background: #20c7ae; color: #08231f; font-weight: 700; cursor: pointer; box-shadow: 0 3px 12px #0005; }
-    button:hover:not(:disabled) { background: #55dfc5; }
-    button:active:not(:disabled) { transform: translateY(1px); }
-    button:focus-visible { outline: 3px solid #f2f0df; outline-offset: 3px; }
-    button:disabled { opacity: .55; cursor: wait; }
-    #fullscreen-status { flex: 1; color: #b8c8c1; font-size: 13px; }
-    @media (max-width: 520px) { footer { padding-left: 12px; padding-right: 12px; } #fullscreen-status { display: none; } button { min-height: 46px; padding: 0 16px; } }
   </style>
 </head>
 <body>
@@ -35,14 +27,12 @@
       <div id="error" hidden role="alert"></div>
     </div>
   </main>
-  <footer><a href="credits.html" target="_blank" rel="noopener">Credits</a><span id="fullscreen-status" role="status" aria-live="polite">Tap Play Fullscreen to hide browser controls.</span><button id="fullscreen" disabled aria-label="Play CODEBREAKERS in fullscreen" aria-pressed="false">Play Fullscreen</button></footer>
+  <footer><a href="credits.html" target="_blank" rel="noopener">Credits</a></footer>
   <script>
     const canvas = document.querySelector('#unity-canvas');
     const loading = document.querySelector('#loading');
     const progress = document.querySelector('#progress');
     const error = document.querySelector('#error');
-    const fullscreenButton = document.querySelector('#fullscreen');
-    const fullscreenStatus = document.querySelector('#fullscreen-status');
     function showError(message) {
       loading.hidden = false;
       progress.hidden = true;
@@ -50,9 +40,9 @@
       error.textContent = 'The game could not load. Try refreshing in a desktop browser.\n' + message;
     }
     const config = {
-      dataUrl: 'Build/62a3640843cead6d2273ff528ba89b83.data.unityweb',
+      dataUrl: 'Build/5d6b961242726023300c42bf971dd294.data.unityweb',
       frameworkUrl: 'Build/a3a328ca3dc2459da33f74fc77a7bdc9.framework.js.unityweb',
-      codeUrl: 'Build/7662e1f81a60dabebee9ef5456bae013.wasm.unityweb',
+      codeUrl: 'Build/8da4bd1434e0502cb378001853efd050.wasm.unityweb',
       streamingAssetsUrl: 'StreamingAssets',
       companyName: 'Codebreakers',
       productName: 'CODEBREAKERS',
@@ -61,35 +51,12 @@
       showBanner: (message, type) => { if (type === 'error') showError(message); else console.warn(message); }
     };
     const loader = document.createElement('script');
-    loader.src = 'Build/5ea315087156358609df01f0159d70fc.loader.js';
+    loader.src = 'Build/a371a163893bbc7204ef3783ced9a678.loader.js';
     loader.onerror = () => showError('Unable to download the game loader.');
     loader.onload = () => createUnityInstance(canvas, config, value => { progress.value = value; })
-      .then(instance => {
+      .then(() => {
         loading.hidden = true;
         canvas.focus();
-        fullscreenButton.disabled = false;
-        fullscreenButton.addEventListener('click', () => {
-          // Unity's WebGL fullscreen call must run directly in the user's tap/click.
-          instance.SetFullscreen(1);
-          canvas.focus();
-          window.setTimeout(() => {
-            const active = document.fullscreenElement === canvas || document.webkitFullscreenElement === canvas;
-            fullscreenButton.setAttribute('aria-pressed', String(active));
-            if (!active) fullscreenStatus.textContent = 'Fullscreen was not available here. Try a supported browser or its install-to-home-screen mode.';
-          }, 900);
-        });
-        document.addEventListener('fullscreenchange', () => {
-          const active = document.fullscreenElement === canvas;
-          fullscreenButton.setAttribute('aria-pressed', String(active));
-          if (active) fullscreenStatus.textContent = '';
-          else fullscreenStatus.textContent = 'Tap Play Fullscreen to hide browser controls.';
-        });
-        document.addEventListener('webkitfullscreenchange', () => {
-          const active = document.webkitFullscreenElement === canvas;
-          fullscreenButton.setAttribute('aria-pressed', String(active));
-          if (active) fullscreenStatus.textContent = '';
-          else fullscreenStatus.textContent = 'Tap Play Fullscreen to hide browser controls.';
-        });
       }).catch(showError);
     document.body.appendChild(loader);
   </script>
